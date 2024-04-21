@@ -151,7 +151,7 @@ export const CONNECTIONS: Connection[] = [
   {
     title: 'Google Drive',
     description: 'Connect your google drive to listen to folder changes',
-    image: '/googleDrive.png',
+    image: '/Google Drive.png',
     connectionKey: 'googleNode',
     alwaysTrue: true,
   },
@@ -173,7 +173,7 @@ export const CONNECTIONS: Connection[] = [
     title: 'Slack',
     description:
       'Use slack to send notifications to team members through your own custom bot.',
-    image: '/slack.png',
+    image: '/Slack main.png',
     connectionKey: 'slackNode',
     accessTokenKey: 'slackAccessToken',
     slackSpecial: true,
