@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { EditorCanvasTypes, EditorNodeType } from "@/lib/types";
 import { useNodeConnections } from "@/providers/connections-provider";
 import { useEditor } from "@/providers/editor-provider";
@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { CONNECTIONS, EditorCanvasDefaultCardTypes } from "@/lib/constants";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import EditorCanvasIconHelper from "./editor-canvas-card-icon-helper";
-import { onDragStart } from "@/lib/editor-utils";
+import { onConnections, onDragStart } from "@/lib/editor-utils";
 import {
 	Accordion,
 	AccordionContent,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/accordion";
 import RenderConnectionAccordion from "./render-connection-accordion";
 import RenderOutputAccordion from "./render-output-accordion";
+import { useOptiSyncStore } from "@/store";
 
 type Props = {
 	nodes: EditorNodeType[];
@@ -25,9 +26,16 @@ type Props = {
 const EditorCanvasSidebar = ({ nodes }: Props) => {
 	const { state } = useEditor();
 	const { nodeConnection } = useNodeConnections();
+	const { googleFile, setSlackChannels } = useOptiSyncStore();
+
+	useEffect(() => {
+		if (state) {
+			onConnections(nodeConnection, state, googleFile);
+		}
+	}, [state]);
+
 	return (
 		<aside>
-			{" "}
 			<Tabs defaultValue='actions' className='h-screen overflow-scroll pb-24'>
 				<TabsList className='bg-transparent'>
 					<TabsTrigger value='actions'>Actions</TabsTrigger>
