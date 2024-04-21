@@ -5,10 +5,12 @@ import { onContentChange } from "@/lib/editor-utils";
 import { nodeMapper } from "@/lib/types";
 import { ConnectionProviderProps } from "@/providers/connections-provider";
 import { EditorState } from "@/providers/editor-provider";
-import React from "react";
+import React, { useEffect } from "react";
 import GoogleFileDetails from "./google-file-details";
 import GoogleDriveFiles from "./google-drive-files";
 import ActionButton from "./action-button";
+import { toast } from "sonner";
+import axios from "axios";
 
 export interface Option {
 	value: string;
@@ -39,6 +41,20 @@ const ContentBasedOnTitle = ({
 }: Props) => {
 	const { selectedNode } = newState.editor;
 	const title = selectedNode.data.title;
+
+	useEffect(() => {
+		const reqGoogle = async () => {
+			const response: { data: { message: { files: any } } } = await axios.get("/api/drive");
+			if (response) {
+				console.log(response.data.message.files[0]);
+				toast.message("Fetched File");
+				setFile(response.data.message.files[0]);
+			} else {
+				toast.error("Something went wrong");
+			}
+		};
+		reqGoogle();
+	}, []);
 
 	// @ts-ignore
 	const nodeConnectionType: any = nodeConnection[nodeMapper[title]];

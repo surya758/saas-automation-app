@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { v4 } from "uuid";
 import FlowInstance from "./flow-instance";
 import EditorCanvasSidebar from "./editor-canvas-sidebar";
+import { onGetNodesEdges } from "../../../_actions/workflow-connections";
 
 type Props = {};
 
@@ -37,6 +38,14 @@ const EditorCanvas = (props: Props) => {
 	const [isWorkFlowLoading, setIsWorkFlowLoading] = useState<boolean>(false);
 	const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>();
 	const pathname = usePathname();
+
+	useEffect(() => {
+		dispatch({ type: "LOAD_DATA", payload: { edges, elements: nodes } });
+	}, [nodes, edges]);
+
+	useEffect(() => {
+		onGetWorkFlow();
+	}, []);
 
 	const onDragOver = useCallback((event: any) => {
 		event.preventDefault();
@@ -149,9 +158,16 @@ const EditorCanvas = (props: Props) => {
 		[]
 	);
 
-	useEffect(() => {
-		dispatch({ type: "LOAD_DATA", payload: { edges, elements: nodes } });
-	}, [nodes, edges]);
+	const onGetWorkFlow = async () => {
+		setIsWorkFlowLoading(true);
+		const response = await onGetNodesEdges(pathname.split("/").pop()!);
+		if (response) {
+			setEdges(JSON.parse(response.edges!));
+			setNodes(JSON.parse(response.nodes!));
+			setIsWorkFlowLoading(false);
+		}
+		setIsWorkFlowLoading(false);
+	};
 
 	return (
 		<ResizablePanelGroup direction='horizontal'>
