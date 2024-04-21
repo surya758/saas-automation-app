@@ -1,7 +1,7 @@
 "use client";
 import { EditorCanvasCardType, EditorNodeType } from "@/lib/types";
 import { useEditor } from "@/providers/editor-provider";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ReactFlow, {
 	Background,
 	Connection,
@@ -11,6 +11,8 @@ import ReactFlow, {
 	MiniMap,
 	NodeChange,
 	ReactFlowInstance,
+	applyNodeChanges,
+	applyEdgeChanges,
 	addEdge,
 } from "reactflow";
 import "reactflow/dist/style.css";
@@ -146,6 +148,10 @@ const EditorCanvas = (props: Props) => {
 		}),
 		[]
 	);
+
+	useEffect(() => {
+		dispatch({ type: "LOAD_DATA", payload: { edges, elements: nodes } });
+	}, [nodes, edges]);
 
 	return (
 		<ResizablePanelGroup direction='horizontal'>
