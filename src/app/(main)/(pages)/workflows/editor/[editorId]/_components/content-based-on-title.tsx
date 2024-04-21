@@ -7,6 +7,7 @@ import { ConnectionProviderProps } from "@/providers/connections-provider";
 import { EditorState } from "@/providers/editor-provider";
 import React from "react";
 import GoogleFileDetails from "./google-file-details";
+import GoogleDriveFiles from "./google-drive-files";
 
 export interface Option {
 	value: string;
