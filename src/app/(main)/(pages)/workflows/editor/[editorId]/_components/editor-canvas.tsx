@@ -1,3 +1,4 @@
+"use client";
 import { EditorNodeType } from "@/lib/types";
 import { useEditor } from "@/providers/editor-provider";
 import React, { useMemo } from "react";
