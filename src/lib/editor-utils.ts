@@ -142,12 +142,12 @@ export const onConnections = async (
   }
 }
 
-// export const fetchBotSlackChannels = async (
-//   token: string,
-//   setSlackChannels: (slackChannels: Option[]) => void
-// ) => {
-//   await listBotChannels(token)?.then((channels) => setSlackChannels(channels))
-// }
+export const fetchBotSlackChannels = async (
+  token: string,
+  setSlackChannels: (slackChannels: Option[]) => void
+) => {
+  await listBotChannels(token)?.then((channels) => setSlackChannels(channels))
+}
 
 export const onNotionContent = (
   nodeConnection: ConnectionProviderProps,
