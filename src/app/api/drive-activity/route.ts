@@ -21,6 +21,7 @@ export async function GET() {
     'oauth_google'
   )
 
+  //@ts-ignore
   const accessToken = clerkResponse[0].token
 
   oauth2Client.setCredentials({
